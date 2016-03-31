@@ -6,6 +6,13 @@ Place source-repairshopr.module into the sources directory of superfecta, eg: /v
 
 Reload the superfecta page
 
-Modify the YOURSUBDOMAIN field by clicking the module name.
+###Options:
+#####Required:
+
+Modify the YOURSUBDOMAIN field by clicking the module name and saving.
+
+#####Optional:
+
+Modify the Prefix field to indicate that CNAM was returned by repairshopr.
 
 That is all.
