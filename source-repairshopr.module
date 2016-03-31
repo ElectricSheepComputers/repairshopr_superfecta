@@ -18,12 +18,17 @@ class repairshopr extends superfecta_base {
                                 'description' => 'eg, YOURSUBDOMAIN.repairshopr.com',
                                 'type' => 'text'
                 ),
+                'Prefix' => array(
+                                 'description' => 'A short charactor set to indicate this is a customer, eg, \'Cust: $
+                                 'type' => 'text'
+                ),
         );
 
 
 
     function get_caller_id($thenumber, $run_param=array()) {
         $caller_id = null;
+        $prefix = $run_param['Prefix'];
 
         if ($run_param['YOURSUBDOMAIN'] == null) {
                 // missing required user config
@@ -51,7 +56,7 @@ class repairshopr extends superfecta_base {
                     $this->DebugPrint("Stripping Label");
                     $sname = substr($sname, 3);
                 }
-                $caller_id=$sname;
+                $caller_id=$prefix.$sname;
             }
 
         }
