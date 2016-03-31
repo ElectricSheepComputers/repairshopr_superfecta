@@ -1,0 +1,61 @@
+<?php
+
+/*
+ *
+ * This module works in superfecta for Repairshopr
+ * Created by Mike Barbee with Electric Sheep Computers of Taos, NM
+ * 3-31-2015
+ * Released under the GPL v2
+ *
+ */
+
+class repairshopr extends superfecta_base {
+
+    public $description = "repairshopr.com - recovers caller id name from repairshopr crm api";
+    public $version_requirement = "2.11";
+    public $source_param = array(
+                'YOURSUBDOMAIN' => array(
+                                'description' => 'eg, YOURSUBDOMAIN.repairshopr.com',
+                                'type' => 'text'
+                ),
+        );
+
+
+
+    function get_caller_id($thenumber, $run_param=array()) {
+        $caller_id = null;
+
+        if ($run_param['YOURSUBDOMAIN'] == null) {
+                // missing required user config
+                $this->DebugPrint("Missing YOURSUBDOMAIN");
+                Return;
+        }
+        else {
+            
+            $url = "http://".$run_param['YOURSUBDOMAIN'].".repairshopr.com/api/callerid/?did=".$thenumber;
+
+            $this->DebugPrint("Searching Repairshopr: ".$url);
+
+
+            $this->DebugPrint("URL: $url",3);
+
+            $sname = "";
+
+            $sname = $this->get_url_contents($url);
+
+            if( strlen($sname) < 1){
+                $this->DebugPrint("No CNAM retrived.");
+            }else{
+                $pos = strpos($sname, "N: ");
+                if($pos !== false){
+                    $this->DebugPrint("Stripping Label");
+                    $sname = substr($sname, 3);
+                }
+                $caller_id=$sname;
+            }
+
+        }
+        return($caller_id);
+    }
+
+}
